@@ -1,0 +1,80 @@
+/* تنسيقات عامة */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* الحاوية الرئيسية */
+.container {
+    max-width: 500px;
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* أزرار التبديل */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+button {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-booking { background: linear-gradient(135deg, #008080, #00a0a0); }
+.btn-inquiry { background: linear-gradient(135deg, #333333, #555555); }
+
+/* تنسيق المدخلات */
+.form-section h3 {
+    color: #008080;
+    margin-bottom: 20px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box; /* لضمان عدم خروج المدخلات عن الإطار */
+    font-size: 14px;
+}
+
+input:focus, textarea:focus {
+    border-color: #008080;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,128,128,0.3);
+}
+
+/* زر الإرسال */
+.send-btn {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    width: 100%;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+/* استجابة للهواتف */
+@media (max-width: 480px) {
+    .container { padding: 20px; }
+    button { font-size: 14px; padding: 12px; }
+}

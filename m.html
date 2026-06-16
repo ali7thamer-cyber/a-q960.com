@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عيادة الأسنان والتجميل</title>
+    <link rel="stylesheet" href="m.css">
+</head>
+<body>
+
+<div class="hero">
+    <h1>عيادتنا الطبية</h1>
+    <p>نقدم لكم خدمات طبية متكاملة لابتسامة أكثر إشراقاً</p>
+</div>
+<div class="btn-group">
+    <button id="btn-booking-open" class="btn-booking" onclick="openTab('booking')">حجز موعد</button>
+    <button id="btn-inquiry-open" class="btn-inquiry" onclick="openTab('inquiry')">استفسار</button>
+</div>
+
+<div id="booking" class="form-section">
+    <form onsubmit="handleBookingSubmit(event)">
+        <h3>بيانات الحجز</h3>
+        <input type="text" id="name" required placeholder="الاسم الثلاثي">
+        <input type="number" id="age" required placeholder="العمر">
+        <input type="text" id="city" required placeholder="المحافظة">
+        <input type="tel" id="phone" required placeholder="رقم الهاتف">
+        <input type="tel" id="whatsapp" required placeholder="رقم الواتساب">
+        <select id="type" required>
+            <option value="قلع سن">قلع سن</option>
+            <option value="زراعة اسنان">زراعة اسنان</option>
+            <option value="حشوة اسنان">حشوة اسنان</option>
+            <option value="جلسة ليزر">جلسة ليزر</option>
+            <option value="عملية تجميل">عملية تجميل</option>
+            <option value="فلر">فلر</option>
+        </select>
+        <button type="submit" class="send-btn">إرسال الحجز</button>
+    </form>
+</div>
+
+<div id="inquiry" class="form-section" style="display:none;">
+    <form onsubmit="handleInquirySubmit(event)">
+        <h3>اكتب استفسارك</h3>
+        <textarea id="msg" required rows="4" placeholder="اكتب استفسارك هنا..."></textarea>
+        <button type="submit" class="send-btn">إرسال الاستفسار</button>
+    </form>
+</div>
+
+<script src="m.js"></script>
+</body>
+</html>
