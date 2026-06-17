@@ -1,49 +1,267 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
-    <title>عيادة الأسنان والتجميل</title>
-    <link rel="stylesheet" href="m.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عيادتنا الطبية</title>
+    <style>
+        /* تنسيقات عامة */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.container {
+    width: 90%; /* سيأخذ 90% من عرض شاشة الموبايل */
+    max-width: 450px; /* لن يزيد عن هذا العرض حتى لو فُتح على حاسوب */
+    margin: 20px auto;
+}
+.profile-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-img {
+    width: 100px; /* حجم صورتك */
+    height: 100px;
+    border-radius: 50%;
+}
+
+.status-dot {
+    position: absolute;
+    top: 5px;      /* موضع النقطة من الأعلى */
+    left: 5px;    /* موضع النقطة من اليمين */
+    width: 20px;   /* حجم النقطة */
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid white; /* إطار أبيض لجعلها أوضح */
+    background-color: grey;
+
+}
+
+.status-text {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+
+
+/* الحاوية الرئيسية */
+.container {
+    max-width: 500px;
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* أزرار التبديل */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+button {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-booking { background: linear-gradient(135deg, #008080, #00a0a0); }
+.btn-inquiry { background: linear-gradient(135deg, #333333, #555555); }
+
+/* تنسيق المدخلات */
+.form-section h3 {
+    color: #008080;
+    margin-bottom: 20px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box; /* لضمان عدم خروج المدخلات عن الإطار */
+    font-size: 14px;
+}
+
+input:focus, textarea:focus {
+    border-color: #008080;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0,128,128,0.3);
+}
+
+/* زر الإرسال */
+.send-btn {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    width: 100%;
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+/* استجابة للهواتف */
+@media (max-width: 480px) {
+    .container { padding: 20px; }
+    button { font-size: 14px; padding: 12px; }
+}
+.copyright {
+    font-size: 20px;
+    color: #888888;
+    margin-top: 50px;
+}
+
+    </style>
 </head>
+
 <body>
+    <div class="profile-container" style="text-align: center; position: relative; display: inline-block;">
+        <img src="s.jpg" alt="عيادة" style="width: 100px; height: 100px; border-radius: 50%;">
 
-<div class="hero">
-    <h1>عيادتنا الطبية</h1>
-    <p>نقدم لكم خدمات طبية متكاملة لابتسامة أكثر إشراقاً</p>
-</div>
-<div class="btn-group">
-    <button id="btn-booking-open" class="btn-booking" onclick="openTab('booking')">حجز موعد</button>
-    <button id="btn-inquiry-open" class="btn-inquiry" onclick="openTab('inquiry')">استفسار</button>
-</div>
+        <div id="status-dot"
+            style="position: absolute; top: 5px; left: 5px; width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; background-color: gray;">
+        </div>
+    </div>
 
-<div id="booking" class="form-section">
-    <form onsubmit="handleBookingSubmit(event)">
-        <h3>بيانات الحجز</h3>
-        <input type="text" id="name" required placeholder="الاسم الثلاثي">
-        <input type="number" id="age" required placeholder="العمر">
-        <input type="text" id="city" required placeholder="المحافظة">
-        <input type="tel" id="phone" required placeholder="رقم الهاتف">
-        <input type="tel" id="whatsapp" required placeholder="رقم الواتساب">
-        <select id="type" required>
-            <option value="قلع سن">قلع سن</option>
-            <option value="زراعة اسنان">زراعة اسنان</option>
-            <option value="حشوة اسنان">حشوة اسنان</option>
-            <option value="جلسة ليزر">جلسة ليزر</option>
-            <option value="عملية تجميل">عملية تجميل</option>
-            <option value="فلر">فلر</option>
-        </select>
-        <button type="submit" class="send-btn">إرسال الحجز</button>
-    </form>
-</div>
+    <div id="clinic-status" style="font-weight: bold; margin-top: 10px;"></div>
+    <div class="hero">
+        <h1>عيادتنا الطبية</h1>
+        <p>نقدم لكم خدمات طبية متكاملة لابتسامة أكثر إشراقاً</p>
+    </div>
+    <div class="btn-group">
+        <button id="btn-booking-open" class="btn-booking" onclick="openTab('booking')">حجز موعد</button>
+        <button id="btn-inquiry-open" class="btn-inquiry" onclick="openTab('inquiry')">استفسار</button>
+    </div>
 
-<div id="inquiry" class="form-section" style="display:none;">
-    <form onsubmit="handleInquirySubmit(event)">
-        <h3>اكتب استفسارك</h3>
-        <textarea id="msg" required rows="4" placeholder="اكتب استفسارك هنا..."></textarea>
-        <button type="submit" class="send-btn">إرسال الاستفسار</button>
-    </form>
-</div>
+    <div id="booking" class="form-section">
+        <form onsubmit="handleBookingSubmit(event)">
+            <h3>بيانات الحجز</h3>
+            <input type="text" id="name" required placeholder="الاسم الثلاثي">
+            <input type="number" id="age" required placeholder="العمر">
+            <input type="text" id="city" required placeholder="المحافظة">
+            <input type="tel" id="phone" required placeholder="رقم الهاتف">
+            <input type="tel" id="whatsapp" required placeholder="رقم الواتساب">
+            <select id="type" required>
+                <option value="قلع سن">قلع سن</option>
+                <option value="زراعة اسنان">زراعة اسنان</option>
+                <option value="حشوة اسنان">حشوة اسنان</option>
+                <option value="جلسة ليزر">جلسة ليزر</option>
+                <option value="عملية تجميل">عملية تجميل</option>
+                <option value="فلر">فلر</option>
+            </select>
+            <div style="text-align: right; margin-top: 10px;">
+                <label for="contact-method" style="font-size: 14px; color: #555;">طريقة التواصل المفضلة:</label>
+                <select id="contact-method"
+                    style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 10px; border: 1px solid #ddd;">
+                    <option value="whatsapp">واتساب</option>
+                    <option value="telegram">تليجرام</option>
+                </select>
+            </div>
+            <button type="submit" class="send-btn">إرسال الحجز</button>
+        </form>
+    </div>
 
-<script src="m.js"></script>
+    <div id="inquiry" class="form-section" style="display:none;">
+        <form onsubmit="handleInquirySubmit(event)">
+            <h3>اكتب استفسارك</h3>
+            <textarea id="msg" required rows="4" placeholder="اكتب استفسارك هنا..."></textarea>
+            <button type="submit" class="send-btn">إرسال الاستفسار</button>
+        </form>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="copyright"> 2026 جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+    <script>
+        function checkClinicStatus() {
+    const statusDot = document.getElementById('status-dot');
+    const statusText = document.getElementById('clinic-status');
+    const now = new Date();
+    const currentTimeInMinutes = (now.getHours() * 60) + now.getMinutes();
+
+    // مواعيد العمل: من 21:00 (1260 دقيقة) إلى 00:35 (35 دقيقة)
+    const isWorkingTime = (currentTimeInMinutes >= 1260) || (currentTimeInMinutes < 120);
+
+    if (isWorkingTime) {
+        statusDot.style.backgroundColor = "green"; // نقطة خضراء
+        statusText.innerText = "مفتوح الآن";
+    } else {
+        statusDot.style.backgroundColor = "red";   // نقطة حمراء
+        statusText.innerText = "مغلق حالياً";
+    }
+}
+
+window.onload = checkClinicStatus;
+
+// 1️⃣ معلومات العيادة
+const MY_WHATSAPP_NUMBER = "9647859176005"; // ضع رقمك هنا
+
+// 2️⃣ دالة التنقل بين (حجز موعد) و (استفسار)
+function openTab(tabId) {
+    document.getElementById('booking').style.display = 'none';
+    document.getElementById('inquiry').style.display = 'none';
+    document.getElementById(tabId).style.display = 'block';
+}
+
+// 3️⃣ دالة إرسال الطلب النهائي (النمط الاحترافي بدون علامات مائلة)
+function handleBookingSubmit(event) {
+    event.preventDefault();
+
+    let name = document.getElementById('name').value;
+    let age = document.getElementById('age').value;
+    let city = document.getElementById('city').value;
+    let phone = document.getElementById('phone').value;
+    let whatsapp = document.getElementById('whatsapp').value;
+    let type = document.getElementById('type').value;
+    let method = document.getElementById('contact-method').value; // جلب الاختيار
+
+    // صياغة الرسالة باستخدام علامات التنصيص العادية وعلامة +
+    // صياغة الرسالة بدون أي رموز تنسيق (نص عادي)
+    let message = "مرحباً، أود حجز موعد طبي:" + "%0A%0A" +
+        "نوع الخدمة: " + type + "%0A" +
+        "اسم المريض: " + name + "%0A" +
+        "العمر: " + age + "%0A" +
+        "المحافظة: " + city + "%0A" +
+        "رقم الهاتف: " + phone + "%0A" +
+        "رقم الواتساب: " + whatsapp;
+
+    alert("✅ جاري توجيهك إلى " + (method === 'whatsapp' ? 'واتساب' : 'تليجرام') + " لإتمام الطلب.");
+
+    if (method === "whatsapp") {
+        window.open("https://wa.me/9647859176005?text=" + message, '_blank');
+    } else {
+        // استبدل YYYY بمعرف التليجرام الخاص بك (بدون @)
+        window.open("https://t.me/Ali2023yr18?text=" + encodeURIComponent(message.replace(/%/g, '').replace(/0A/g, '\n')), '_blank');
+    }
+}
+
+function handleInquirySubmit(event) {
+    event.preventDefault();
+    let msg = document.getElementById('msg').value;
+    let message = "👋 *مرحباً، لدي استفسار:* %0A%0A💬 *الاستفسار:* " + msg;
+
+    window.open("https://api.whatsapp.com/send?phone=" + MY_WHATSAPP_NUMBER + "&text=" + message, '_blank');
+}
+
+    </script>
 </body>
+
 </html>
