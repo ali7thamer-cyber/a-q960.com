@@ -108,6 +108,7 @@ input:focus, textarea:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(0,128,128,0.3);
 }
+input[type="radio"] { width: auto; margin-left: 5px; cursor: pointer; }
 
 /* زر الإرسال */
 .send-btn {
@@ -166,14 +167,15 @@ input:focus, textarea:focus {
                 <option value="عملية تجميل">عملية تجميل</option>
                 <option value="فلر">فلر</option>
             </select>
-            <div style="text-align: right; margin-top: 10px;">
-                <label for="contact-method" style="font-size: 14px; color: #555;">طريقة التواصل المفضلة:</label>
-                <select id="contact-method"
-                    style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 10px; border: 1px solid #ddd;">
-                    <option value="whatsapp">واتساب</option>
-                    <option value="telegram">تليجرام</option>
-                </select>
-            </div>
+<div style="text-align: right; margin: 15px 0;">
+    <label style="display: block; margin-bottom: 8px; font-weight: bold;">طريقة التواصل المفضلة:</label>
+    
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <label><input type="radio" name="contact-method" value="whatsapp" checked> واتساب</label>
+        <label><input type="radio" name="contact-method" value="telegram"> تليجرام</label>
+        <label><input type="radio" name="contact-method" value="phone"> هاتف</label>
+    </div>
+</div>
             <button type="submit" class="send-btn">إرسال الحجز</button>
         </form>
     </div>
@@ -225,16 +227,18 @@ function openTab(tabId) {
 function handleBookingSubmit(event) {
     event.preventDefault();
 
+    // جلب البيانات من المدخلات
     let name = document.getElementById('name').value;
     let age = document.getElementById('age').value;
     let city = document.getElementById('city').value;
     let phone = document.getElementById('phone').value;
     let whatsapp = document.getElementById('whatsapp').value;
     let type = document.getElementById('type').value;
-    let method = document.getElementById('contact-method').value; // جلب الاختيار
+    
+    // جلب قيمة زر الراديو المحدد (تأكد أن الـ name في HTML هو contact-method)
+    let method = document.querySelector('input[name="contact-method"]:checked').value;
 
-    // صياغة الرسالة باستخدام علامات التنصيص العادية وعلامة +
-    // صياغة الرسالة بدون أي رموز تنسيق (نص عادي)
+    // صياغة الرسالة (نص عادي)
     let message = "مرحباً، أود حجز موعد طبي:" + "%0A%0A" +
         "نوع الخدمة: " + type + "%0A" +
         "اسم المريض: " + name + "%0A" +
@@ -243,15 +247,20 @@ function handleBookingSubmit(event) {
         "رقم الهاتف: " + phone + "%0A" +
         "رقم الواتساب: " + whatsapp;
 
-    alert("✅ جاري توجيهك إلى " + (method === 'whatsapp' ? 'واتساب' : 'تليجرام') + " لإتمام الطلب.");
-
+    // توجيه المستخدم حسب اختياره
     if (method === "whatsapp") {
         window.open("https://wa.me/9647859176005?text=" + message, '_blank');
-    } else {
-        // استبدل YYYY بمعرف التليجرام الخاص بك (بدون @)
-        window.open("https://t.me/Ali2023yr18?text=" + encodeURIComponent(message.replace(/%/g, '').replace(/0A/g, '\n')), '_blank');
+    } 
+    else if (method === "telegram") {
+        // استبدل AliThamer_IQ بالمعرف الخاص بك
+        window.open("https://t.me/AliThamer_IQ?text=" + encodeURIComponent(message.replace(/%0A/g, '\n')), '_blank');
+    } 
+    else if (method === "phone") {
+        // فتح تطبيق الاتصال مباشرة
+        window.location.href = "tel:9647859176005";
     }
 }
+
 
 function handleInquirySubmit(event) {
     event.preventDefault();
