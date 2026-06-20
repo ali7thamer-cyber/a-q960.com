@@ -5,32 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عيادة النور الطبية</title>
     <style>
-        :root { --bg: #0a0a0a; --text: #ffffff; --card: #1a1a1a; --primary: #18ec66; --input-bg: #2a2a2a; }
-        .light-mode { --bg: #f4f4f4; --text: #333333; --card: #ffffff; --primary: #159586; --input-bg: #e0e0e0; }
+        :root { --bg: #0a0a0a; --text: #ffffff; --card: #1a1a1a; --primary: #18acec; --input-bg: #2a2a2a; }
+        .light-mode { --bg: #f4f4f4; --text: #333333; --card: #ffffff; --primary: #158295; --input-bg: #e0e0e0; }
 
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); transition: 0.4s; margin: 0; padding-bottom: 120px; }
         .container { max-width: 500px; margin: auto; padding: 20px; }
 
-        .theme-btn { background: rgba(37, 211, 102, 0.2); padding: 10px 20px; border-radius: 50px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; border: 1px solid var(--primary); margin-bottom: 15px; }
+        .theme-btn { background: rgba(37, 156, 211, 0.2); padding: 10px 20px; border-radius: 50px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; border: 1px solid var(--primary); margin-bottom: 15px; }
 
         .section { display: none; }
         .active { display: block; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        .card { background: var(--card); padding: 25px; border-radius: 30px; border: 1px solid rgba(37, 211, 102, 0.2); margin-top: 10px; text-align: center; }
+        .card { background: var(--card); padding: 25px; border-radius: 30px; border: 1px solid rgba(37, 164, 211, 0.2); margin-top: 10px; text-align: center; }
         input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 1px solid #aaa; background-color: var(--input-bg); color: var(--text); box-sizing: border-box; }
         
-        .btn-submit { background: rgba(37, 211, 102, 0.2); color: var(--primary); border: 2px solid var(--primary); padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-submit { background: rgba(26, 144, 212, 0.2); color: var(--primary); border: 2px solid var(--primary); padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-submit:hover { background: var(--primary); color: white; }
         
-        .bottom-nav { position: fixed; bottom: 30px; left: 15px; right: 15px; background: rgba(37, 211, 102, 0.15); backdrop-filter: blur(15px); padding: 10px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--primary); }
+        .bottom-nav { position: fixed; bottom: 30px; left: 15px; right: 15px; background: rgba(37, 130, 211, 0.15); backdrop-filter: blur(15px); padding: 10px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--primary); }
         .nav-item { cursor: pointer; padding: 10px 20px; border-radius: 30px; color: var(--text); font-weight: 600; transition: 0.3s; }
         /* التعديل هنا لزيادة الشفافية في الزر النشط */
 .nav-item.active { 
-    background: rgba(37, 211, 102, 0.3); /* شفافية أكبر (0.3) */
+    background: rgba(37, 147, 211, 0.3); /* شفافية أكبر (0.3) */
     border: 1px solid var(--primary); /* إضافة إطار أخضر ليبقى الزر واضحاً */
     color: white; 
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); 
+    box-shadow: 0 4px 15px rgba(37, 121, 211, 0.423); 
 }
         
         .footer { position: fixed; bottom: 5px; width: 100%; text-align: center; font-size: 11px; color: #666; }
