@@ -2,130 +2,133 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عيادة النور الطبية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عيادتنا الطبية</title>
     <style>
-        :root { --bg: #0a0a0a; --text: #ffffff; --card: #1a1a1a; --primary: #18acec; --input-bg: #2a2a2a; }
-        .light-mode { --bg: #f4f4f4; --text: #333333; --card: #ffffff; --primary: #158295; --input-bg: #e0e0e0; }
-
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); transition: 0.4s; margin: 0; padding-bottom: 120px; }
-        .container { max-width: 500px; margin: auto; padding: 20px; }
-
-        .theme-btn { background: rgba(37, 156, 211, 0.2); padding: 10px 20px; border-radius: 50px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; border: 1px solid var(--primary); margin-bottom: 15px; }
-
-        .section { display: none; }
-        .active { display: block; animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        .card { background: var(--card); padding: 25px; border-radius: 30px; border: 1px solid rgba(37, 164, 211, 0.2); margin-top: 10px; text-align: center; }
-        input, select { width: 100%; padding: 15px; margin: 10px 0; border-radius: 15px; border: 1px solid #aaa; background-color: var(--input-bg); color: var(--text); box-sizing: border-box; }
-        
-        .btn-submit { background: rgba(26, 144, 212, 0.2); color: var(--primary); border: 2px solid var(--primary); padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-submit:hover { background: var(--primary); color: white; }
-        
-        .bottom-nav { position: fixed; bottom: 30px; left: 15px; right: 15px; background: rgba(37, 130, 211, 0.15); backdrop-filter: blur(15px); padding: 10px; border-radius: 50px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--primary); }
-        .nav-item { cursor: pointer; padding: 10px 20px; border-radius: 30px; color: var(--text); font-weight: 600; transition: 0.3s; }
-        /* التعديل هنا لزيادة الشفافية في الزر النشط */
-.nav-item.active { 
-    background: rgba(37, 147, 211, 0.3); /* شفافية أكبر (0.3) */
-    border: 1px solid var(--primary); /* إضافة إطار أخضر ليبقى الزر واضحاً */
-    color: white; 
-    box-shadow: 0 4px 15px rgba(37, 121, 211, 0.423); 
-}
-        
-        .footer { position: fixed; bottom: 5px; width: 100%; text-align: center; font-size: 11px; color: #666; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; text-align: center; }
+        .container { max-width: 450px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .profile-img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid #008080; }
+        .btn-group { display: flex; gap: 10px; margin: 20px 0; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; }
+        .btn-booking { background: #008080; }
+        .btn-inquiry { background: #333; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .send-btn { background: #25d366; width: 100%; font-size: 18px; margin-top: 15px; }
+        .radio-group { display: flex; justify-content: center; gap: 15px; margin: 10px 0; }
+        .map-box { margin-top: 30px; border-radius: 20px; overflow: hidden; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="theme-btn" onclick="toggleTheme()">
-        <span id="theme-icon">🌙</span> <span id="theme-text">الوضع الليلي</span>
+    <img src="m.jpg" alt="عيادة" class="profile-img">
+    <div id="clinic-status" style="font-weight: bold; margin-top: 10px;"></div>
+    
+    <h1>عيادتنا الطبية</h1>
+    
+    <div class="btn-group">
+        <button class="btn-booking" onclick="openTab('booking')">حجز موعد</button>
+        <button class="btn-inquiry" onclick="openTab('inquiry')">استفسار</button>
     </div>
 
-    <div id="home" class="section active">
-        <div class="card">
-            <img src="m.jpg" style="width:120px; height:120px; border-radius:50%; border:3px solid var(--primary);">
-            <h2>عيادة النور الطبية</h2>
-            <p id="clinic-status" style="font-weight:bold;"></p>
-            <p>نخبة من الأطباء لتقديم أفضل رعاية طبية تجميلية بأساليب حديثة.</p>
-        </div>
-    </div>
-
-    <div id="booking" class="section">
-        <div class="card">
+    <div id="booking" class="form-section">
+        <form onsubmit="handleBookingSubmit(event)">
             <h3>بيانات الحجز</h3>
-            <input type="text" id="name" placeholder="الاسم الثلاثي">
-            <input type="number" id="age" placeholder="العمر">
-            <input type="text" id="city" placeholder="المحافظة">
-            <input type="tel" id="phone" placeholder="رقم الهاتف">
-            <input type="tel" id="whatsapp" placeholder="رقم الواتساب">
-            <select id="type">
+            <input type="text" id="name" required placeholder="الاسم الثلاثي">
+            <input type="number" id="age" required placeholder="العمر">
+            <input type="text" id="city" required placeholder="المحافظة">
+            <input type="tel" id="phone" required placeholder="رقم الهاتف">
+            <input type="tel" id="whatsapp" required placeholder="رقم الواتساب">
+            <select id="type" required>
                 <option value="قلع سن">قلع سن</option>
                 <option value="زراعة اسنان">زراعة اسنان</option>
+                <option value="حشوة اسنان">حشوة اسنان</option>
+                <option value="جلسة ليزر">جلسة ليزر</option>
+                <option value="عملية تجميل">عملية تجميل</option>
+                <option value="فلر">فلر</option>
             </select>
-            <div style="text-align: right; margin: 10px 0;">
-                <label>طريقة التواصل:</label><br>
-                <input type="radio" name="contact-method" value="whatsapp" checked> واتساب
-                <input type="radio" name="contact-method" value="telegram"> تليجرام
-                <input type="radio" name="contact-method" value="phone"> هاتف
-            </div>
-            <button class="btn-submit" onclick="handleBookingSubmit()">إرسال الحجز</button>
-        </div>
-    </div>
-
-    <div id="contact" class="section">
-        <div class="card">
-            <h3>موقعنا</h3>
-            <p>📍 بغداد، الكرادة، شارع 16</p>
-            <img src="map.jpg" alt="خريطة الموقع" style="width:100%; border-radius:15px; margin-top:10px;">
-        </div>
+<div style="text-align: right; margin: 15px 0;">
+    <label style="display: block; margin-bottom: 8px; font-weight: bold;">طريقة التواصل المفضلة:</label>
+    
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <label><input type="radio" name="contact-method" value="whatsapp" checked> واتساب</label>
+        <label><input type="radio" name="contact-method" value="telegram"> تليجرام</label>
+        <label><input type="radio" name="contact-method" value="phone"> هاتف</label>
     </div>
 </div>
+            <button type="submit" class="send-btn">إرسال الحجز</button>
+        </form>
+    </div>
 
-<div class="bottom-nav">
-    <div class="nav-item active" onclick="showSection('home', this)">🏠 الرئيسية</div>
-    <div class="nav-item" onclick="showSection('booking', this)">📅 حجز</div>
-    <div class="nav-item" onclick="showSection('contact', this)">📍 الموقع</div>
+    <div id="inquiry" class="form-section" style="display:none;">
+        <form onsubmit="handleInquirySubmit(event)">
+            <h3>اكتب استفسارك</h3>
+            <textarea id="msg" required rows="4"></textarea>
+            <button type="submit" class="send-btn">إرسال الاستفسار</button>
+        </form>
+    </div>
+
+    <!-- مربع الخريطة -->
+    <div class="map-box">
+        <h3>موقع العيادة</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="200" frameborder="0" style="border:0;" allowfullscreen></iframe>
+    </div>
 </div>
-
-<div class="footer">جميع الحقوق محفوظة 2026</div>
 
 <script>
-    function toggleTheme() {
-        const body = document.body;
-        const icon = document.getElementById('theme-icon');
-        const text = document.getElementById('theme-text');
-        body.classList.toggle('light-mode');
-        icon.innerText = body.classList.contains('light-mode') ? "☀️" : "🌙";
-        text.innerText = body.classList.contains('light-mode') ? "الوضع النهاري" : "الوضع الليلي";
+    // حالة العيادة
+    const now = new Date();
+    const isWorking = (now.getHours() >= 21 || now.getHours() < 2);
+    document.getElementById('clinic-status').innerText = isWorking ? "🟢 مفتوح الآن" : "🔴 مغلق حالياً";
+
+    function openTab(tabId) {
+        document.getElementById('booking').style.display = (tabId === 'booking') ? 'block' : 'none';
+        document.getElementById('inquiry').style.display = (tabId === 'inquiry') ? 'block' : 'none';
     }
 
-    function showSection(id, element) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        element.classList.add('active');
-    }
+function handleBookingSubmit(event) {
+    event.preventDefault();
 
-    function handleBookingSubmit() {
-        let name = document.getElementById('name').value;
-        let age = document.getElementById('age').value;
-        let city = document.getElementById('city').value;
-        let phone = document.getElementById('phone').value;
-        let whatsapp = document.getElementById('whatsapp').value;
-        let type = document.getElementById('type').value;
-        let method = document.querySelector('input[name="contact-method"]:checked').value;
-        
-        let message = `👋 *حجز جديد:* %0A👤 *الاسم:* ${name} %0A🎂 *العمر:* ${age} %0A📍 *المحافظة:* ${city} %0A🛠 *الخدمة:* ${type} %0A📞 *هاتف:* ${phone} %0A💬 *واتساب:* ${whatsapp}`;
-        
-        if (method === "whatsapp") window.open("https://wa.me/9647859176005?text=" + message, '_blank');
-        else if (method === "telegram") window.open("https://t.me/Ali2023yr18?text=" + encodeURIComponent(message.replace(/%0A/g, '\n')), '_blank');
-        else window.location.href = "tel:9647859176005";
-    }
+    // جلب البيانات من المدخلات
+    let name = document.getElementById('name').value;
+    let age = document.getElementById('age').value;
+    let city = document.getElementById('city').value;
+    let phone = document.getElementById('phone').value;
+    let whatsapp = document.getElementById('whatsapp').value;
+    let type = document.getElementById('type').value;
+    
+    // جلب قيمة زر الراديو المحدد (تأكد أن الـ name في HTML هو contact-method)
+    let method = document.querySelector('input[name="contact-method"]:checked').value;
 
-    const hrs = new Date().getHours();
-    document.getElementById('clinic-status').innerHTML = (hrs >= 21 || hrs < 2) ? "🔴 مغلق حالياً" : "🟢 مفتوح الآن";
+    // صياغة الرسالة (نص عادي)
+let message = "👋 *مرحباً، أود حجز موعد طبي:* %0A%0A" +
+                  "📌 *نوع الخدمة:* " + type + " %0A" +
+                  "👤 *اسم المريض:* " + name + " %0A" +
+                  "🎂 *العمر:* " + age + " %0A" +
+                  "📍 *المحافظة:* " + city + " %0A" +
+                  "📞 *رقم الهاتف:* " + phone + " %0A" +
+                  "💬 *رقم الواتساب:* " + whatsapp;
+
+    // توجيه المستخدم حسب اختياره
+    if (method === "whatsapp") {
+        window.open("https://wa.me/9647859176005?text=" + message, '_blank');
+    } 
+    else if (method === "telegram") {
+        // استبدل AliThamer_IQ بالمعرف الخاص بك
+        window.open("https://t.me/Ali2023yr18?text=" + encodeURIComponent(message.replace(/%0A/g, '\n')), '_blank');
+    } 
+    else if (method === "phone") {
+        // فتح تطبيق الاتصال مباشرة
+        window.location.href = "tel:9647859176005";
+    }
+}
+
+    function handleInquirySubmit(event) {
+        event.preventDefault();
+        let msg = document.getElementById('msg').value;
+        window.open(`https://wa.me/9647859176005?text=استفسار: ${msg}`, '_blank');
+    }
 </script>
+
 </body>
 </html>
