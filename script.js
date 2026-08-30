@@ -1,32 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     const langBtn = document.getElementById('lang-toggle-btn');
-    let currentLang = 'ar'; // اللغة الافتراضية
+    let currentLang = 'en'; // جعل الإنكليزية هي اللغة الافتراضية
 
-    langBtn.addEventListener('click', () => {
-        // التبديل بين العربية والانكليزية
-        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    // دالة لتطبيق اللغة الحالية على الصفحة
+    const applyLanguage = (lang) => {
+        // تحديث النص داخل زر التبديل (يعرض AR عندما تكون الصفحة بالإنكليزية)
+        langBtn.textContent = lang === 'en' ? 'AR' : 'EN';
         
-        // تحديث النص داخل زر التبديل نفسه
-        langBtn.textContent = currentLang === 'ar' ? 'EN' : 'AR';
-        
-        // تغيير اتجاه الصفحة (RTL للعربية و LTR للإنكليزية)
-        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        // تغيير اتجاه الصفحة (LTR للإنكليزية و RTL للعربية)
+        document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
 
-        // البحث عن كل العناصر التي تحتوي على data-ar و data-en
+        // ترجمة جميع العناصر التي تحتوي على data-ar و data-en
         const elementsToTranslate = document.querySelectorAll('[data-ar][data-en]');
         
         elementsToTranslate.forEach(element => {
-            // حفظ أي أيقونة داخل العنصر حتى لا تضيع عند تغيير النص
             const icon = element.querySelector('i');
-            const newText = element.getAttribute(`data-${currentLang}`);
+            const newText = element.getAttribute(`data-${lang}`);
 
             if (icon) {
-                element.innerHTML = ''; // تفريغ المحتوى القديم
-                element.appendChild(icon); // إعادة الأيقونة
-                element.appendChild(document.createTextNode(' ' + newText)); // إضافة النص الجديد
+                element.innerHTML = ''; 
+                element.appendChild(icon); 
+                element.appendChild(document.createTextNode(' ' + newText)); 
             } else {
                 element.textContent = newText;
             }
         });
+    };
+
+    // تطبيق اللغة الإنجليزية فور تحميل الصفحة
+    applyLanguage(currentLang);
+
+    // التبديل عند الضغط على الزر
+    langBtn.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'ar' : 'en';
+        applyLanguage(currentLang);
     });
 });
