@@ -22,7 +22,7 @@ def search_nearest_medical(lat, lon):
     out center;
     """
     try:
-        response = requests.post(overpass_url, data={'data': overpass_query}, timeout=15)
+        response = requests.post(overpass_url, data={'data': overpass_query}, timeout=20)
         return response.json().get('elements', [])
     except:
         return []
