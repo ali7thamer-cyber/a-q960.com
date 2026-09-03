@@ -1,0 +1,108 @@
+import logging
+import requests
+from aiogram import Bot, Dispatcher, types, F
+from aiogram.filters import Command
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
+
+# --- 1. الإعدادات ---
+API_TOKEN = '8619226952:AAHKlfjxmSFc2O9ZWp8giRzbzrUQ49jdi-s'  
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher()
+
+# --- 2. دالة البحث عن الأقرب (عند إرسال الموقع) ---
+def search_nearest_medical(lat, lon):
+    # استخدام سيرفر Overpass للبحث حول نقطة جغرافية (نطاق 10 كم)
+    overpass_url = "https://overpass-api.de/api/interpreter"
+    overpass_query = f"""
+    [out:json][timeout:25];
+    (
+      node["amenity"~"hospital|clinic"](around:10000, {lat}, {lon});
+      way["amenity"~"hospital|clinic"](around:10000, {lat}, {lon});
+    );
+    out center;
+    """
+    try:
+        response = requests.post(overpass_url, data={'data': overpass_query}, timeout=20)
+        return response.json().get('elements', [])
+    except:
+        return []
+
+# --- 3. دالة البحث بالاسم ---
+def quick_search(hospital_name):
+    url = "https://nominatim.openstreetmap.org/search"
+    params = {'q': f"{hospital_name} العراق", 'format': 'json', 'limit': 1, 'accept-language': 'ar'}
+    headers = {'User-Agent': 'Musaaf_Bot_Iraq'}
+    try:
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+        return response.json()
+    except:
+        return []
+
+# --- 4. لوحات الأزرار ---
+def main_menu():
+    kb = [
+        [KeyboardButton(text="📍 إرسال موقعي للبحث", request_location=True)],
+        [KeyboardButton(text="🔍 ابحث عن مستشفى باسمها")],
+        [KeyboardButton(text="🚑 أرقام الإسعاف (المحافظات)")]
+    ]
+    return ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+
+def provinces_inline():
+    provinces = ["بغداد", "البصرة", "نينوى", "أربيل", "النجف", "كربلاء", "ذي قار", "كركوك", "الأنبار", "بابل", "ديالى", "المثنى", "القادسية", "ميسان", "واسط", "صلاح الدين", "دهوك", "السليمانية"]
+    buttons = []
+    for i in range(0, len(provinces), 2):
+        row = [InlineKeyboardButton(text=provinces[i], callback_data=f"prov_{provinces[i]}")]
+        if i+1 < len(provinces):
+            row.append(InlineKeyboardButton(text=provinces[i+1], callback_data=f"prov_{provinces[i+1]}"))
+        buttons.append(row)
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
+
+# --- 5. معالجة الأوامر ---
+
+@dp.message(Command("start"))
+async def start(message: types.Message):
+    await message.answer("أهلاً بك في بوت مسعف 🕊", reply_markup=main_menu())
+
+# ✅ مصلح: معالجة الموقع الجغرافي
+@dp.message(F.location)
+async def handle_location(message: types.Message):
+    wait_msg = await message.answer("⏳ جاري البحث عن أقرب مستشفى لموقعك الحالي...")
+    results = search_nearest_medical(message.location.latitude, message.location.longitude)
+    
+    await wait_msg.delete() # حذف رسالة الانتظار
+    
+    if results:
+        res = results[0]
+        lat = res.get('lat') or res.get('center', {}).get('lat')
+        lon = res.get('lon') or res.get('center', {}).get('lon')
+        name = res.get('tags', {}).get('name:ar') or res.get('tags', {}).get('name', 'مرفق طبي قريب')
+        
+        await message.answer(f"✅ أقرب نتيجة لموقعك:\n🏥 {name}")
+        await message.answer_location(latitude=lat, longitude=lon)
+    else:
+        await message.answer("❌ لم يتم العثور على مستشفيات قريبة في نطاق")
+ 
+@dp.message(F.text == "🚑 أرقام الإسعاف (المحافظات)")
+async def show_provinces(message: types.Message):
+    await message.answer("اختر المحافظة:", reply_markup=provinces_inline())
+
+@dp.callback_query(F.data.startswith("prov_"))
+async def province_call(callback: types.CallbackQuery):
+    province_name = callback.data.replace("prov_", "")
+    await callback.answer(text=f"🚨 إسعاف {province_name}: 122", show_alert=True)
+
+@dp.message()
+async def handle_text_search(message: types.Message):
+    if not message.text or message.text.startswith("/") or "🔍" in message.text or "🚑" in message.text: return
+    wait_msg = await message.answer(f"⏳ جاري البحث عن '{message.text}'...")
+    results = quick_search(message.text)
+    if results:
+        res = results[0]
+        await wait_msg.delete()
+        await message.answer(f"✅ تم العثور على: {res['display_name'].split(',')[0]}")
+        await message.answer_location(latitude=float(res['lat']), longitude=float(res['lon']))
+    else:
+        await wait_msg.edit_text("❌ لم يتم العثور على نتائج.")
+
+if __name__ == "__main__":
+    dp.run_polling(bot)
