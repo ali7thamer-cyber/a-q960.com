@@ -16,13 +16,13 @@ def search_nearest_medical(lat, lon):
     overpass_query = f"""
     [out:json][timeout:25];
     (
-      node["amenity"~"hospital|clinic"](around:10000, {lat}, {lon});
-      way["amenity"~"hospital|clinic"](around:10000, {lat}, {lon});
+      node["amenity"~"hospital|clinic"](around:5000, {lat}, {lon});
+      way["amenity"~"hospital|clinic"](around:5000, {lat}, {lon});
     );
     out center;
     """
     try:
-        response = requests.post(overpass_url, data={'data': overpass_query}, timeout=20)
+        response = requests.post(overpass_url, data={'data': overpass_query}, timeout=15)
         return response.json().get('elements', [])
     except:
         return []
@@ -89,7 +89,7 @@ async def show_provinces(message: types.Message):
 @dp.callback_query(F.data.startswith("prov_"))
 async def province_call(callback: types.CallbackQuery):
     province_name = callback.data.replace("prov_", "")
-    await callback.answer(text=f"🚨 إسعاف {province_name}: 122", show_alert=True)
+    await callback.answer(text=f"🚨 إسعاف {province_name}: 911", show_alert=True)
 
 @dp.message()
 async def handle_text_search(message: types.Message):
